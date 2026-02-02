@@ -158,10 +158,30 @@ export const productSync = {
     },
 
     async update(localId, updates) {
-        const product = await db.products.get(localId);
-        if (!product) {
-            throw new Error('Product not found');
+        // Handle cases where localId might be undefined or invalid
+        if (!localId) {
+            console.error('❌ Invalid product ID:', localId);
+            throw new Error('Product ID is required for update');
         }
+
+        let product = await db.products.get(localId);
+
+        // If not found by local ID, try to find by serverId
+        if (!product && updates.serverId) {
+            console.log('🔍 Product not found by local ID, searching by serverId:', updates.serverId);
+            product = await db.products.where('serverId').equals(updates.serverId).first();
+            if (product) {
+                localId = product.id;
+                console.log('✓ Found product by serverId, using local ID:', localId);
+            }
+        }
+
+        if (!product) {
+            console.error('❌ Product not found. Local ID:', localId, 'Updates:', updates);
+            throw new Error(`Product not found (ID: ${localId})`);
+        }
+
+        console.log('📝 Updating product:', product.name, 'ID:', localId);
 
         // Update locally with sync flag
         await db.products.update(localId, {

@@ -97,20 +97,29 @@ function Inventory() {
             ]);
 
             console.log('📦 API returned products:', productsData?.length, 'products');
-            if (productsData?.length > 0) {
-                console.log('📦 Sample product from API:', productsData[0]);
-                // Find the apple product to check its quantity
-                const appleProduct = productsData.find(p => p.name?.toLowerCase().includes('apple'));
-                if (appleProduct) {
-                    console.log('📦 Apple product from API:', {
-                        _id: appleProduct._id,
-                        name: appleProduct.name,
-                        quantity: appleProduct.quantity
-                    });
-                }
+
+            // Enrich API products with local IndexedDB IDs
+            let enrichedProducts = productsData;
+            if (Array.isArray(productsData) && productsData.length > 0) {
+                enrichedProducts = await Promise.all(
+                    productsData.map(async (product) => {
+                        if (product._id) {
+                            const localProduct = await db.products.where('serverId').equals(product._id).first();
+                            if (localProduct) {
+                                // Merge server data with local ID
+                                return {
+                                    ...product,
+                                    id: localProduct.id, // Add local IndexedDB ID
+                                    serverId: product._id
+                                };
+                            }
+                        }
+                        return product;
+                    })
+                );
             }
 
-            setProducts(productsData);
+            setProducts(enrichedProducts);
             setCategories(categoriesData);
 
             // Update IndexedDB with fresh server data
@@ -270,6 +279,9 @@ function Inventory() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log('🔄 Form submitted for', editingProduct ? 'UPDATE' : 'CREATE');
+        console.log('📝 Form data:', formData);
+
         // Prepare product data object
         const productData = {
             storeId: store.id,
@@ -294,21 +306,28 @@ function Inventory() {
             productData.quantity = parseInt(formData.quantity) || 0;
         }
 
+        console.log('📦 Product data to save:', productData);
+
         try {
             if (editingProduct) {
                 // Update existing product and sync to server (excluding quantity)
+                console.log('⚙️ Updating product ID:', editingProduct.id);
                 const result = await productSync.update(editingProduct.id, productData);
-                console.log('Product updated, synced:', result.synced);
+                console.log('✅ Product updated, synced:', result.synced);
             } else {
                 // Create new product and sync to server
+                console.log('⚙️ Creating new product');
                 const result = await productSync.create(productData, store.id);
-                console.log('Product created, synced:', result.synced);
+                console.log('✅ Product created, synced:', result.synced);
             }
 
+            console.log('🔄 Reloading inventory data...');
             await loadData();
+            console.log('✅ Modal closing');
             setShowModal(false);
         } catch (error) {
-            console.error('Failed to save product:', error);
+            console.error('❌ Failed to save product:', error);
+            alert(`Failed to save product: ${error.message}`);
         }
     };
 
