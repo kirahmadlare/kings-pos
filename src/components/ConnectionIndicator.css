@@ -1,0 +1,134 @@
+/**
+ * Connection Indicator Styles
+ */
+
+.connection-indicator {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9998;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateX(-50%) translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+.connection-indicator.offline {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--color-danger);
+}
+
+.connection-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.connection-content svg {
+    color: var(--color-danger);
+    flex-shrink: 0;
+}
+
+.connection-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.connection-indicator .btn {
+    margin-left: 0.5rem;
+}
+
+/* Connection Badge (for navbar) */
+.connection-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.connection-badge.online {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--color-success);
+}
+
+.connection-badge.online .icon-online {
+    color: var(--color-success);
+}
+
+.connection-badge.offline {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+    animation: pulse 2s infinite;
+}
+
+.connection-badge.offline .icon-offline {
+    color: var(--color-danger);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.badge-text {
+    font-size: 0.813rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .connection-indicator {
+        left: 1rem;
+        right: 1rem;
+        transform: none;
+        width: auto;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .connection-content {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .connection-text {
+        flex: 1;
+        min-width: 100%;
+        text-align: center;
+    }
+
+    .badge-text {
+        display: none;
+    }
+}

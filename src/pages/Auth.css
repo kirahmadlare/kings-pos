@@ -1,0 +1,313 @@
+.auth-page {
+    display: flex;
+    min-height: 100vh;
+}
+
+.auth-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-6);
+    background: var(--bg-primary);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-xl);
+}
+
+.auth-card-wide {
+    max-width: 520px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+}
+
+.auth-logo {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin: 0 auto var(--space-4);
+    box-shadow: 0 4px 12px rgb(245 158 11 / 0.4);
+}
+
+.auth-logo-img {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-xl);
+}
+
+.auth-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.auth-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* Steps indicator */
+.auth-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.auth-step {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-tertiary);
+}
+
+.auth-step.active {
+    color: var(--primary-500);
+}
+
+.step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.auth-step.active .step-number {
+    background: var(--primary-500);
+    color: white;
+}
+
+.step-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+}
+
+.step-line {
+    width: 40px;
+    height: 2px;
+    background: var(--border-color);
+}
+
+/* Form */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.error-banner {
+    background: var(--danger-50);
+    border: 1px solid var(--danger-100);
+    color: var(--danger-600);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-sm);
+}
+
+/* Dev notice */
+.dev-notice {
+    background: var(--warning-50);
+    border: 1px solid var(--warning-100);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    margin-bottom: var(--space-4);
+}
+
+.dev-notice p {
+    font-size: var(--font-size-sm);
+    color: var(--warning-600);
+    margin-top: var(--space-2);
+}
+
+.dev-notice strong {
+    font-size: var(--font-size-xl);
+    letter-spacing: 0.25em;
+}
+
+/* OTP Input */
+.otp-input {
+    text-align: center;
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    padding-left: var(--space-8);
+}
+
+/* Business types grid */
+.business-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-3);
+}
+
+.business-type-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background: var(--bg-tertiary);
+    border: 2px solid transparent;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.business-type-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.business-type-option:hover {
+    background: var(--bg-secondary);
+    border-color: var(--primary-200);
+}
+
+.business-type-option.selected {
+    background: var(--primary-50);
+    border-color: var(--primary-500);
+}
+
+.business-icon {
+    font-size: 1.5rem;
+}
+
+.business-label {
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.business-type-option.selected .business-label {
+    color: var(--primary-600);
+}
+
+/* Footer */
+.auth-footer {
+    margin-top: var(--space-6);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.auth-footer a {
+    font-weight: 600;
+}
+
+/* Visual side */
+.auth-visual {
+    flex: 1;
+    display: none;
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-900));
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.auth-visual-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--space-12);
+    color: white;
+}
+
+.auth-visual h2 {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+}
+
+.auth-visual p {
+    font-size: var(--font-size-lg);
+    opacity: 0.9;
+    max-width: 400px;
+}
+
+.auth-features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+}
+
+.auth-feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+}
+
+/* Responsive */
+@media (min-width: 1024px) {
+    .auth-visual {
+        display: flex;
+    }
+}
+
+@media (max-width: 639px) {
+    .auth-card {
+        padding: var(--space-6);
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .business-types {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .step-label {
+        display: none;
+    }
+}

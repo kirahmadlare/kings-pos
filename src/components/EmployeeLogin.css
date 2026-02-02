@@ -1,0 +1,176 @@
+/* Employee Login Component Styles */
+
+.employee-login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.employee-login {
+    background: var(--bg-primary);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    width: 100%;
+    max-width: 380px;
+    box-shadow: var(--shadow-2xl);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+}
+
+.login-header h2 {
+    flex: 1;
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.login-header svg:first-child {
+    color: var(--primary-500);
+}
+
+.login-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+/* PIN Display */
+.pin-display {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.pin-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.pin-dot.filled {
+    background: var(--primary-500);
+    border-color: var(--primary-500);
+    transform: scale(1.1);
+}
+
+/* Error Message */
+.login-error {
+    background: var(--danger-50);
+    color: var(--danger-600);
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-sm);
+}
+
+/* Keypad */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.keypad-btn {
+    aspect-ratio: 1;
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.keypad-btn:hover {
+    background: var(--bg-tertiary);
+    transform: scale(1.02);
+}
+
+.keypad-btn:active {
+    transform: scale(0.98);
+    background: var(--primary-100);
+}
+
+.keypad-btn.keypad-action {
+    background: var(--bg-tertiary);
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+}
+
+.keypad-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Submit Button */
+.login-submit {
+    width: 100%;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+/* Clock In Prompt */
+.clock-in-prompt {
+    text-align: center;
+    padding: var(--space-8) 0;
+}
+
+.clock-in-prompt svg {
+    color: var(--primary-500);
+    margin-bottom: var(--space-4);
+}
+
+.clock-in-prompt p {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+.clock-in-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.clock-in-buttons .btn {
+    justify-content: center;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .keypad-btn:active {
+    background: var(--primary-900);
+}

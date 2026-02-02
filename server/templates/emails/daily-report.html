@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Sales Report</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f5; -webkit-font-smoothing: antialiased;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f4f4f5;">
+        <tr>
+            <td style="padding: 40px 20px;">
+                <table role="presentation" style="max-width: 600px; width: 100%; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 26px; font-weight: bold;">Daily Sales Report</h1>
+                            <p style="margin: 10px 0 0; color: #e0e7ff; font-size: 16px; font-weight: 500;">{{date}}</p>
+                        </td>
+                    </tr>
+
+                    <!-- Metrics Cards -->
+                    <tr>
+                        <td style="padding: 30px 30px 10px;">
+                            <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <!-- Revenue Card -->
+                                    <td style="width: 33.33%; padding: 0 5px 20px 0;">
+                                        <table role="presentation" style="width: 100%; background-color: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e;">
+                                            <tr>
+                                                <td style="padding: 20px 15px; text-align: center;">
+                                                    <p style="margin: 0; color: #15803d; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Revenue</p>
+                                                    <p style="margin: 8px 0 0; color: #166534; font-size: 24px; font-weight: bold;">${{revenue}}</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                    <!-- Transactions Card -->
+                                    <td style="width: 33.33%; padding: 0 5px 20px;">
+                                        <table role="presentation" style="width: 100%; background-color: #eff6ff; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                                            <tr>
+                                                <td style="padding: 20px 15px; text-align: center;">
+                                                    <p style="margin: 0; color: #1e40af; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Transactions</p>
+                                                    <p style="margin: 8px 0 0; color: #1e3a8a; font-size: 24px; font-weight: bold;">{{transactions}}</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                    <!-- Avg Basket Card -->
+                                    <td style="width: 33.33%; padding: 0 0 20px 5px;">
+                                        <table role="presentation" style="width: 100%; background-color: #fdf4ff; border-radius: 8px; border-left: 4px solid #a855f7;">
+                                            <tr>
+                                                <td style="padding: 20px 15px; text-align: center;">
+                                                    <p style="margin: 0; color: #86198f; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Avg Basket</p>
+                                                    <p style="margin: 8px 0 0; color: #701a75; font-size: 24px; font-weight: bold;">${{avgBasket}}</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Top Products -->
+                    <tr>
+                        <td style="padding: 10px 30px;">
+                            <h2 style="color: #1f2937; font-size: 18px; margin: 15px 0; font-weight: 600;">Top Performing Products</h2>
+                            <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid #e5e7eb;">
+                                        <th style="padding: 10px 8px; text-align: left; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Product</th>
+                                        <th style="padding: 10px 8px; text-align: center; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Sold</th>
+                                        <th style="padding: 10px 8px; text-align: right; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Revenue</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each topProducts}}
+                                    <tr style="border-bottom: 1px solid #f3f4f6;">
+                                        <td style="padding: 12px 8px; color: #374151; font-size: 14px; font-weight: 500;">{{this.name}}</td>
+                                        <td style="padding: 12px 8px; text-align: center; color: #6b7280; font-size: 14px;">{{this.quantity}}</td>
+                                        <td style="padding: 12px 8px; text-align: right; color: #059669; font-size: 14px; font-weight: 600;">${{this.revenue}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Payment Methods Breakdown -->
+                    <tr>
+                        <td style="padding: 20px 30px;">
+                            <h2 style="color: #1f2937; font-size: 18px; margin: 15px 0; font-weight: 600;">Payment Methods</h2>
+                            <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f9fafb; border-radius: 8px; overflow: hidden;">
+                                {{#each paymentMethods}}
+                                <tr style="border-bottom: 1px solid #e5e7eb;">
+                                    <td style="padding: 12px 15px; color: #374151; font-size: 14px; font-weight: 500;">
+                                        {{this.method}}
+                                    </td>
+                                    <td style="padding: 12px 15px; text-align: right; color: #6b7280; font-size: 14px;">
+                                        {{this.count}} transactions
+                                    </td>
+                                    <td style="padding: 12px 15px; text-align: right; color: #059669; font-size: 14px; font-weight: 600; width: 100px;">
+                                        ${{this.amount}}
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Employee Performance -->
+                    <tr>
+                        <td style="padding: 20px 30px 30px;">
+                            <h2 style="color: #1f2937; font-size: 18px; margin: 15px 0; font-weight: 600;">Employee Performance</h2>
+                            <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid #e5e7eb;">
+                                        <th style="padding: 10px 8px; text-align: left; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Employee</th>
+                                        <th style="padding: 10px 8px; text-align: center; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Sales</th>
+                                        <th style="padding: 10px 8px; text-align: right; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each employees}}
+                                    <tr style="border-bottom: 1px solid #f3f4f6;">
+                                        <td style="padding: 12px 8px; color: #374151; font-size: 14px; font-weight: 500;">{{this.name}}</td>
+                                        <td style="padding: 12px 8px; text-align: center; color: #6b7280; font-size: 14px;">{{this.salesCount}}</td>
+                                        <td style="padding: 12px 8px; text-align: right; color: #6366f1; font-size: 14px; font-weight: 600;">${{this.totalSales}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f9fafb; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; border-top: 1px solid #e5e7eb;">
+                            <p style="margin: 0; color: #6b7280; font-size: 13px;">{{storeName}} Daily Report</p>
+                            <p style="margin: 8px 0 0; color: #9ca3af; font-size: 12px;">Generated automatically at end of business day</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

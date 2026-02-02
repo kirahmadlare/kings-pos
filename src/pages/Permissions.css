@@ -1,0 +1,279 @@
+/* Permissions Page Styles */
+
+.permissions {
+    padding: var(--space-6);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.permissions-header {
+    margin-bottom: var(--space-6);
+}
+
+.permissions-header h2 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.header-subtitle {
+    color: var(--text-secondary);
+    margin-left: calc(24px + var(--space-3));
+}
+
+/* Tabs */
+.permissions-tabs {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--space-3);
+}
+
+.permissions-tabs .tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: none;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.permissions-tabs .tab:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.permissions-tabs .tab.active {
+    background: var(--primary-100);
+    color: var(--primary-600);
+    font-weight: 500;
+}
+
+/* Employee Permissions List */
+.employees-permissions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.employee-permission-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+}
+
+.employee-permission-card .employee-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex: 1;
+}
+
+.employee-permission-card .employee-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+    font-size: var(--font-size-lg);
+}
+
+.employee-permission-card h4 {
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    margin-bottom: var(--space-1);
+}
+
+.role-badge {
+    display: inline-flex;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+}
+
+.permission-summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.permission-count {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.custom-badge {
+    padding: var(--space-1) var(--space-2);
+    background: var(--warning-100);
+    color: var(--warning-600);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+}
+
+/* Role Templates Grid */
+.role-templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+}
+
+.role-template-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.role-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border-left: 3px solid;
+    background: var(--bg-tertiary);
+}
+
+.role-header h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+}
+
+.role-permissions {
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.role-module {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+}
+
+.role-module.has-access {
+    color: var(--text-primary);
+}
+
+.role-module.no-access {
+    color: var(--text-tertiary);
+    opacity: 0.5;
+}
+
+.role-module .perm-icons {
+    margin-left: auto;
+    display: flex;
+    gap: var(--space-1);
+    color: var(--success-500);
+}
+
+/* Permission Matrix */
+.template-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.template-label {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.permission-matrix {
+    overflow-x: auto;
+}
+
+.permission-matrix table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.permission-matrix th,
+.permission-matrix td {
+    padding: var(--space-3);
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.permission-matrix th {
+    background: var(--bg-tertiary);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.permission-matrix th:first-child,
+.permission-matrix td:first-child {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.permission-matrix td:first-child {
+    font-weight: 500;
+}
+
+.permission-matrix input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-500);
+}
+
+.permission-matrix input[type="checkbox"]:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Empty & Loading States */
+.permissions-loading,
+.permissions-denied {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    gap: var(--space-4);
+    color: var(--text-secondary);
+}
+
+.permissions-denied h2 {
+    color: var(--text-primary);
+}
+
+.permissions-denied svg {
+    color: var(--danger-500);
+}
+
+/* Dark mode */
+[data-theme="dark"] .permissions-tabs .tab.active {
+    background: var(--primary-900);
+}

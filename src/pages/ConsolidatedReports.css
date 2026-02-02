@@ -1,0 +1,250 @@
+/**
+ * Consolidated Reports Styles
+ */
+
+.consolidated-reports {
+    padding: 2rem;
+    background: var(--background);
+    min-height: 100vh;
+}
+
+/* Header */
+.reports-header {
+    margin-bottom: 2rem;
+}
+
+.reports-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.reports-header .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Report Configuration */
+.report-config {
+    margin-bottom: 2rem;
+}
+
+.config-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+.config-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1.5rem 0;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.config-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Report Results */
+.report-results {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.result-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.result-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.report-meta {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Report Section */
+.report-section {
+    padding: 1.5rem;
+}
+
+.report-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1rem 0;
+}
+
+.report-section + .report-section {
+    border-top: 1px solid var(--border-color);
+}
+
+/* Report Table */
+.report-table {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.report-table:last-child {
+    margin-bottom: 0;
+}
+
+.report-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-table thead {
+    background: var(--surface);
+}
+
+.report-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.report-table td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.report-table tbody tr:hover {
+    background: var(--surface);
+}
+
+.report-table tfoot {
+    background: var(--surface);
+    font-weight: 600;
+}
+
+.report-table tfoot td {
+    border-bottom: none;
+    border-top: 2px solid var(--border-color);
+}
+
+.report-table .store-name {
+    font-weight: 600;
+}
+
+.report-table .revenue {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.report-table .warning {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.report-table .danger {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+/* Empty State */
+.empty-report {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.empty-report svg {
+    color: var(--text-tertiary);
+    margin-bottom: 1rem;
+}
+
+.empty-report h3 {
+    color: var(--text-primary);
+    margin: 0 0 0.5rem 0;
+}
+
+.empty-report p {
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .consolidated-reports {
+        padding: 1rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .config-actions {
+        flex-direction: column;
+    }
+
+    .config-actions button {
+        width: 100%;
+    }
+
+    .report-table {
+        font-size: 0.8125rem;
+    }
+
+    .report-table th,
+    .report-table td {
+        padding: 0.5rem;
+    }
+}

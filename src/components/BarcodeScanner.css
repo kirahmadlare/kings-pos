@@ -1,0 +1,160 @@
+/**
+ * BarcodeScanner Component Styles
+ * 
+ * Styles for the camera-based barcode scanning modal,
+ * including overlay, viewport, and animation effects.
+ */
+
+/* Fullscreen overlay backdrop */
+.barcode-scanner-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-4);
+}
+
+/* Scanner modal container */
+.barcode-scanner-modal {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-2xl);
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+/* Header with title and close button */
+.scanner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.scanner-header h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+/* Camera viewfinder area */
+.scanner-viewport {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: #000;
+    overflow: hidden;
+}
+
+/* Camera preview container from html5-qrcode */
+#barcode-scanner-region {
+    width: 100%;
+    height: 100%;
+}
+
+#barcode-scanner-region video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Scanning overlay with target frame */
+.scanner-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scanning frame corners */
+.scanner-overlay::before {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 150px;
+    border: 2px solid var(--primary-400);
+    border-radius: var(--radius-lg);
+    box-shadow:
+        0 0 0 9999px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Animated scanning line */
+.scan-line {
+    position: absolute;
+    width: 230px;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--primary-400),
+            var(--primary-500),
+            var(--primary-400),
+            transparent);
+    animation: scan 2s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--primary-500);
+}
+
+@keyframes scan {
+
+    0%,
+    100% {
+        transform: translateY(-60px);
+    }
+
+    50% {
+        transform: translateY(60px);
+    }
+}
+
+/* Error state display */
+.scanner-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: var(--space-6);
+    text-align: center;
+    color: var(--text-tertiary);
+    gap: var(--space-4);
+}
+
+.scanner-error p {
+    color: var(--text-secondary);
+    max-width: 280px;
+}
+
+/* Footer with instructions */
+.scanner-footer {
+    padding: var(--space-4);
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.scanner-footer p {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-3);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 639px) {
+    .barcode-scanner-modal {
+        max-width: 100%;
+        border-radius: var(--radius-xl);
+    }
+
+    .scanner-overlay::before {
+        width: 200px;
+        height: 120px;
+    }
+
+    .scan-line {
+        width: 180px;
+    }
+}

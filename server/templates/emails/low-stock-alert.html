@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low Stock Alert</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f5; -webkit-font-smoothing: antialiased;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f4f4f5;">
+        <tr>
+            <td style="padding: 40px 20px;">
+                <table role="presentation" style="max-width: 600px; width: 100%; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Warning Header -->
+                    <tr>
+                        <td style="background-color: #fef3c7; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; border-left: 4px solid #f59e0b;">
+                            <table role="presentation" style="width: 100%;">
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <div style="display: inline-block; width: 50px; height: 50px; background-color: #f59e0b; border-radius: 50%; margin-bottom: 15px; position: relative;">
+                                            <span style="color: #ffffff; font-size: 30px; line-height: 50px; font-weight: bold;">!</span>
+                                        </div>
+                                        <h1 style="margin: 0; color: #92400e; font-size: 24px; font-weight: bold;">Low Stock Alert</h1>
+                                        <p style="margin: 10px 0 0; color: #b45309; font-size: 14px;">{{storeName}} - {{alertDate}}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <p style="margin: 0 0 20px; color: #374151; font-size: 15px; line-height: 1.6;">
+                                The following products are running low on stock and require your attention. Please review and reorder as necessary.
+                            </p>
+
+                            <!-- Products List -->
+                            <h2 style="color: #1f2937; font-size: 18px; margin: 25px 0 15px; font-weight: 600;">Products Requiring Attention</h2>
+                            <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid #e5e7eb;">
+                                        <th style="padding: 12px 8px; text-align: left; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Product</th>
+                                        <th style="padding: 12px 8px; text-align: center; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Stock</th>
+                                        <th style="padding: 12px 8px; text-align: center; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Min</th>
+                                        <th style="padding: 12px 8px; text-align: center; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each products}}
+                                    <tr style="border-bottom: 1px solid #f3f4f6;">
+                                        <td style="padding: 14px 8px; color: #374151; font-size: 14px; font-weight: 500;">
+                                            {{this.name}}
+                                            <div style="color: #9ca3af; font-size: 12px; margin-top: 3px;">SKU: {{this.sku}}</div>
+                                        </td>
+                                        <td style="padding: 14px 8px; text-align: center; color: #dc2626; font-size: 16px; font-weight: bold;">{{this.currentStock}}</td>
+                                        <td style="padding: 14px 8px; text-align: center; color: #6b7280; font-size: 14px;">{{this.minStock}}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">
+                                            <span style="display: inline-block; padding: 4px 10px; background-color: {{#if this.critical}}#fee2e2{{else}}#fef3c7{{/if}}; color: {{#if this.critical}}#991b1b{{else}}#92400e{{/if}}; font-size: 11px; font-weight: 600; border-radius: 12px; text-transform: uppercase;">
+                                                {{#if this.critical}}Critical{{else}}Low{{/if}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+
+                            <!-- Recommendations -->
+                            <div style="background-color: #f0f9ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 25px 0; border-radius: 4px;">
+                                <h3 style="margin: 0 0 10px; color: #1e40af; font-size: 16px; font-weight: 600;">Reorder Recommendations</h3>
+                                <ul style="margin: 0; padding-left: 20px; color: #374151; font-size: 14px; line-height: 1.8;">
+                                    <li>Review supplier lead times before placing orders</li>
+                                    <li>Consider ordering above minimum to account for delivery delays</li>
+                                    <li>Check for any upcoming promotions or seasonal demand</li>
+                                    <li>Verify current pricing with suppliers</li>
+                                </ul>
+                            </div>
+
+                            <!-- Action Button -->
+                            <table role="presentation" style="width: 100%; margin-top: 30px;">
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <a href="{{inventoryLink}}" style="display: inline-block; padding: 14px 32px; background-color: #6366f1; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: 600; border-radius: 6px; box-shadow: 0 2px 4px rgba(99,102,241,0.3);">View Full Inventory</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f9fafb; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; border-top: 1px solid #e5e7eb;">
+                            <p style="margin: 0; color: #6b7280; font-size: 13px;">This is an automated alert from {{storeName}} inventory system</p>
+                            <p style="margin: 8px 0 0; color: #9ca3af; font-size: 12px;">Alert sent on {{alertDate}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

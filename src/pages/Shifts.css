@@ -1,0 +1,433 @@
+/* Shift Schedule Page Styles */
+
+.shifts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.shifts-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    gap: var(--space-4);
+    color: var(--text-secondary);
+}
+
+/* Header */
+.shifts-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.shifts-header h2 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.header-actions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+/* On Duty Section */
+.on-duty-section {
+    background: var(--success-50);
+    border: 1px solid var(--success-200);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+}
+
+.on-duty-section h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--success-700);
+    margin-bottom: var(--space-3);
+}
+
+.on-duty-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.on-duty-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.on-duty-avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--success-500);
+    color: white;
+    border-radius: var(--radius-full);
+}
+
+.on-duty-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.on-duty-info .name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.on-duty-info .since {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+/* Week Navigation */
+.week-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+}
+
+.week-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.week-range {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Calendar Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-2);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3);
+    overflow-x: auto;
+}
+
+.calendar-day {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    min-height: 200px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.calendar-day.today {
+    border: 2px solid var(--primary-500);
+}
+
+.day-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.calendar-day.today .day-header {
+    background: var(--primary-500);
+    color: white;
+}
+
+.day-name {
+    font-size: var(--font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.calendar-day.today .day-name {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.day-date {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.day-shifts {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    overflow-y: auto;
+}
+
+/* Shift Card */
+.shift-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-2);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--primary-400);
+    font-size: var(--font-size-sm);
+}
+
+.shift-card.active {
+    border-left-color: var(--success-500);
+    background: var(--success-50);
+}
+
+.shift-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.shift-employee {
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shift-time {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+.shift-actions {
+    display: flex;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.shift-card:hover .shift-actions {
+    opacity: 1;
+}
+
+.btn-xs {
+    padding: 2px 6px;
+    font-size: var(--font-size-xs);
+}
+
+/* Add Shift Button */
+.add-shift-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-2);
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-tertiary);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.add-shift-btn:hover {
+    border-color: var(--primary-400);
+    color: var(--primary-500);
+    background: var(--primary-50);
+}
+
+.add-shift-btn.small {
+    padding: var(--space-1);
+    margin: var(--space-2);
+    font-size: var(--font-size-xs);
+}
+
+/* Modal Sizes */
+.modal-sm {
+    max-width: 360px;
+}
+
+/* Time Row */
+.time-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+/* Textarea */
+.textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* Clock Modal */
+.clock-instructions {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+}
+
+.pin-input-container {
+    display: flex;
+    justify-content: center;
+}
+
+.pin-input-large {
+    width: 160px;
+    font-size: var(--font-size-3xl);
+    text-align: center;
+    letter-spacing: 8px;
+    padding: var(--space-4);
+}
+
+.clock-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    background: var(--danger-50);
+    color: var(--danger-600);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-sm);
+}
+
+/* Summary Modal */
+.summary-header {
+    text-align: center;
+    padding: var(--space-4);
+    background: var(--success-50);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+}
+
+.summary-header h4 {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--success-700);
+}
+
+.summary-time {
+    color: var(--success-600);
+    font-size: var(--font-size-base);
+    margin-top: var(--space-1);
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.summary-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-lg);
+    text-align: center;
+}
+
+.summary-stat .stat-icon {
+    color: var(--primary-500);
+    margin-bottom: var(--space-2);
+}
+
+.summary-stat .stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-stat .stat-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.summary-stat .stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+.summary-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    background: var(--primary-50);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+.summary-total .total-value {
+    font-size: var(--font-size-2xl);
+    color: var(--success-600);
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+    .calendar-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .summary-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 767px) {
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .calendar-day {
+        min-height: 150px;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .header-actions .btn {
+        flex: 1;
+    }
+
+    .time-row {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,261 @@
+/* Employee Login Page Styles */
+
+.employee-login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary-700) 100%);
+    padding: var(--space-4);
+}
+
+.employee-login-card {
+    background: var(--bg-primary);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-2xl);
+}
+
+.login-page-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.login-logo {
+    width: 64px;
+    height: 64px;
+    margin-bottom: var(--space-4);
+}
+
+.login-page-header h1 {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.login-page-header p {
+    color: var(--text-secondary);
+}
+
+/* Store Step */
+.store-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.store-step .input-group {
+    margin-bottom: var(--space-2);
+}
+
+.store-step .input-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+    font-weight: 500;
+}
+
+.input-lg {
+    padding: var(--space-4);
+    font-size: var(--font-size-lg);
+}
+
+.input-error {
+    color: var(--danger-500);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-2);
+    display: block;
+}
+
+.quick-stores {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+}
+
+.quick-label {
+    color: var(--text-tertiary);
+    font-size: var(--font-size-sm);
+}
+
+/* PIN Step */
+.pin-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selected-store {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-6);
+    width: 100%;
+    justify-content: center;
+}
+
+.selected-store svg:first-child {
+    color: var(--primary-500);
+}
+
+.selected-store span {
+    font-weight: 500;
+}
+
+.pin-instruction {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+}
+
+/* PIN Display */
+.pin-display {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.pin-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.pin-dot.filled {
+    background: var(--primary-500);
+    border-color: var(--primary-500);
+    transform: scale(1.1);
+}
+
+/* Error */
+.login-error {
+    background: var(--danger-50);
+    color: var(--danger-600);
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-sm);
+    width: 100%;
+}
+
+/* Keypad */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    width: 100%;
+    max-width: 280px;
+}
+
+.keypad-btn {
+    aspect-ratio: 1;
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.keypad-btn:hover {
+    background: var(--bg-tertiary);
+    transform: scale(1.02);
+}
+
+.keypad-btn:active {
+    transform: scale(0.98);
+    background: var(--primary-100);
+}
+
+.keypad-btn.keypad-action {
+    background: var(--bg-tertiary);
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+}
+
+.keypad-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Clock In Screen */
+.clock-in-screen {
+    text-align: center;
+    padding: var(--space-8) 0;
+}
+
+.welcome-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: white;
+    font-size: var(--font-size-3xl);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-6);
+}
+
+.clock-in-screen h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-2);
+}
+
+.clock-in-screen p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+.clock-in-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.clock-in-buttons .btn {
+    justify-content: center;
+}
+
+/* Footer */
+.login-page-footer {
+    text-align: center;
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-color);
+}
+
+.login-page-footer a {
+    color: var(--text-tertiary);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.login-page-footer a:hover {
+    color: var(--primary-500);
+}
+
+/* Utility */
+.w-full {
+    width: 100%;
+}

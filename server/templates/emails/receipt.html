@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - {{receiptNumber}}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f5; -webkit-font-smoothing: antialiased;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f4f4f5;">
+        <tr>
+            <td style="padding: 40px 20px;">
+                <table role="presentation" style="max-width: 600px; width: 100%; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">{{storeName}}</h1>
+                            <p style="margin: 10px 0 0; color: #e0e7ff; font-size: 14px;">Thank you for your purchase!</p>
+                        </td>
+                    </tr>
+
+                    <!-- Receipt Details -->
+                    <tr>
+                        <td style="padding: 30px;">
+                            <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                                <tr>
+                                    <td style="padding: 8px 0;">
+                                        <strong style="color: #374151; font-size: 14px;">Receipt Number:</strong>
+                                        <span style="color: #6b7280; font-size: 14px; float: right;">{{receiptNumber}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                                        <strong style="color: #374151; font-size: 14px;">Date:</strong>
+                                        <span style="color: #6b7280; font-size: 14px; float: right;">{{date}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; border-bottom: 1px solid #e5e7eb;">
+                                        <strong style="color: #374151; font-size: 14px;">Cashier:</strong>
+                                        <span style="color: #6b7280; font-size: 14px; float: right;">{{cashierName}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Items Table -->
+                            <h2 style="color: #1f2937; font-size: 18px; margin: 25px 0 15px; font-weight: 600;">Items Purchased</h2>
+                            <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                                <thead>
+                                    <tr style="border-bottom: 2px solid #e5e7eb;">
+                                        <th style="padding: 12px 8px; text-align: left; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Item</th>
+                                        <th style="padding: 12px 8px; text-align: center; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Qty</th>
+                                        <th style="padding: 12px 8px; text-align: right; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Price</th>
+                                        <th style="padding: 12px 8px; text-align: right; color: #6b7280; font-size: 12px; font-weight: 600; text-transform: uppercase;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each items}}
+                                    <tr style="border-bottom: 1px solid #f3f4f6;">
+                                        <td style="padding: 12px 8px; color: #374151; font-size: 14px;">{{this.name}}</td>
+                                        <td style="padding: 12px 8px; text-align: center; color: #6b7280; font-size: 14px;">{{this.quantity}}</td>
+                                        <td style="padding: 12px 8px; text-align: right; color: #6b7280; font-size: 14px;">${{this.price}}</td>
+                                        <td style="padding: 12px 8px; text-align: right; color: #374151; font-size: 14px; font-weight: 600;">${{this.total}}</td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+
+                            <!-- Totals -->
+                            <table role="presentation" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                                <tr>
+                                    <td style="padding: 8px; text-align: right; color: #6b7280; font-size: 14px;">Subtotal:</td>
+                                    <td style="padding: 8px; text-align: right; color: #374151; font-size: 14px; width: 100px;">${{subtotal}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; text-align: right; color: #6b7280; font-size: 14px; border-bottom: 1px solid #e5e7eb;">Tax:</td>
+                                    <td style="padding: 8px; text-align: right; color: #374151; font-size: 14px; border-bottom: 1px solid #e5e7eb;">${{tax}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 8px; text-align: right; color: #1f2937; font-size: 18px; font-weight: bold;">Total:</td>
+                                    <td style="padding: 12px 8px; text-align: right; color: #6366f1; font-size: 18px; font-weight: bold;">${{total}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px; text-align: right; color: #6b7280; font-size: 14px;">Payment Method:</td>
+                                    <td style="padding: 8px; text-align: right; color: #374151; font-size: 14px;">{{paymentMethod}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f9fafb; padding: 25px; text-align: center; border-radius: 0 0 8px 8px; border-top: 1px solid #e5e7eb;">
+                            <p style="margin: 0 0 10px; color: #374151; font-size: 14px; font-weight: 600;">{{storeName}}</p>
+                            <p style="margin: 5px 0; color: #6b7280; font-size: 13px;">{{storeAddress}}</p>
+                            <p style="margin: 5px 0; color: #6b7280; font-size: 13px;">{{storePhone}}</p>
+                            <p style="margin: 15px 0 0; color: #9ca3af; font-size: 12px;">Questions? Contact us at {{storeEmail}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
