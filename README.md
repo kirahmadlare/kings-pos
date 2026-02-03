@@ -20,11 +20,11 @@ The system is designed with both online and offline capabilities, ensuring your 
 ![Dashboard](./screenshots/Screenshot%202026-02-03%20222300.png)
 *Real-time business metrics, recent sales, and top products at a glance*
 
-### Purchase Orders
+### Analytics Dashboard
 ![Purchase Orders](./screenshots/Screenshot%202026-02-03%20222327.png)
 *Manage supplier orders and track incoming inventory*
 
-### Payment Processing
+### Customers 
 ![Payment](./screenshots/Screenshot%202026-02-03%20222351.png)
 *Fast checkout with multiple payment methods (Cash, Card, Credit)*
 
