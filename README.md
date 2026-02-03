@@ -17,15 +17,15 @@ The system is designed with both online and offline capabilities, ensuring your 
 ## Screenshots
 
 ### Dashboard
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](./screenshots/Screenshot%202026-02-03%20222300.png)
 *Real-time business metrics, recent sales, and top products at a glance*
 
 ### Purchase Orders
-![Purchase Orders](./screenshots/purchase-orders.png)
+![Purchase Orders](./screenshots/Screenshot%202026-02-03%20222327.png)
 *Manage supplier orders and track incoming inventory*
 
 ### Payment Processing
-![Payment](./screenshots/payment.png)
+![Payment](./screenshots/Screenshot%202026-02-03%20222351.png)
 *Fast checkout with multiple payment methods (Cash, Card, Credit)*
 
 ## Key Features
