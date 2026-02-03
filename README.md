@@ -14,6 +14,20 @@ King's POS is built to empower retail store owners and managers with a powerful,
 
 The system is designed with both online and offline capabilities, ensuring your business never stops even when internet connectivity is limited.
 
+## Screenshots
+
+### Dashboard
+![Dashboard](./screenshots/dashboard.png)
+*Real-time business metrics, recent sales, and top products at a glance*
+
+### Purchase Orders
+![Purchase Orders](./screenshots/purchase-orders.png)
+*Manage supplier orders and track incoming inventory*
+
+### Payment Processing
+![Payment](./screenshots/payment.png)
+*Fast checkout with multiple payment methods (Cash, Card, Credit)*
+
 ## Key Features
 
 ### 💰 Point of Sale
