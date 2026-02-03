@@ -10,6 +10,13 @@ import { authenticate } from '../middleware/auth.js';
 import { NotFoundError, ValidationError, AuthorizationError } from '../utils/errors.js';
 import { invalidateEntityCache } from '../services/cacheService.js';
 import mongoose from 'mongoose';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
@@ -777,6 +784,136 @@ router.post('/transfer', async (req, res) => {
         });
     } catch (error) {
         console.error('Inventory transfer error:', error);
+        res.status(error.statusCode || 500).json({ error: error.message });
+    }
+});
+
+/**
+ * Configure multer for logo uploads
+ */
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = path.join(__dirname, '../public/uploads/logos');
+        // Create directory if it doesn't exist
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, 'store-' + req.params.id + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 2 * 1024 * 1024 // 2MB limit
+    },
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = /jpeg|jpg|png|gif|webp/;
+        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = allowedTypes.test(file.mimetype);
+
+        if (mimetype && extname) {
+            return cb(null, true);
+        } else {
+            cb(new Error('Only image files are allowed'));
+        }
+    }
+});
+
+/**
+ * POST /api/stores/:id/logo
+ * Upload store logo
+ */
+router.post('/:id/logo', upload.single('logo'), async (req, res) => {
+    try {
+        const store = await Store.findById(req.params.id);
+
+        if (!store) {
+            throw new NotFoundError('Store not found');
+        }
+
+        // Check access
+        if (!store.canAccess(req.userId) && req.user.role !== 'admin') {
+            throw new AuthorizationError('You do not have access to this store');
+        }
+
+        if (!req.file) {
+            throw new ValidationError('No file uploaded');
+        }
+
+        // Delete old logo if exists
+        if (store.logo) {
+            const oldLogoPath = path.join(__dirname, '../public', store.logo);
+            if (fs.existsSync(oldLogoPath)) {
+                fs.unlinkSync(oldLogoPath);
+            }
+        }
+
+        // Save new logo path
+        const logoPath = `/uploads/logos/${req.file.filename}`;
+        store.logo = logoPath;
+        await store.save();
+
+        // Invalidate cache
+        invalidateEntityCache('stores', req.params.id);
+
+        res.json({
+            success: true,
+            logo: logoPath,
+            message: 'Logo uploaded successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded file on error
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        console.error('Logo upload error:', error);
+        res.status(error.statusCode || 500).json({ error: error.message });
+    }
+});
+
+/**
+ * DELETE /api/stores/:id/logo
+ * Remove store logo
+ */
+router.delete('/:id/logo', async (req, res) => {
+    try {
+        const store = await Store.findById(req.params.id);
+
+        if (!store) {
+            throw new NotFoundError('Store not found');
+        }
+
+        // Check access
+        if (!store.canAccess(req.userId) && req.user.role !== 'admin') {
+            throw new AuthorizationError('You do not have access to this store');
+        }
+
+        // Delete logo file if exists
+        if (store.logo) {
+            const logoPath = path.join(__dirname, '../public', store.logo);
+            if (fs.existsSync(logoPath)) {
+                fs.unlinkSync(logoPath);
+            }
+        }
+
+        // Remove logo from database
+        store.logo = null;
+        await store.save();
+
+        // Invalidate cache
+        invalidateEntityCache('stores', req.params.id);
+
+        res.json({
+            success: true,
+            message: 'Logo removed successfully'
+        });
+    } catch (error) {
+        console.error('Logo removal error:', error);
         res.status(error.statusCode || 500).json({ error: error.message });
     }
 });

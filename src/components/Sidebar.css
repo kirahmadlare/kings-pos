@@ -57,6 +57,48 @@
     flex-shrink: 0;
 }
 
+/* Custom Logo */
+.logo-icon-custom {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+    object-fit: contain;
+    background: var(--bg-tertiary);
+    padding: 4px;
+}
+
+.logo-fallback {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: white;
+}
+
+.logo-fallback.hidden {
+    display: none;
+}
+
+/* Shop Name as Logo */
+.logo-name-as-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+}
+
 .logo-text {
     display: flex;
     flex-direction: column;
@@ -76,6 +118,15 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.logo-store-subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
 }
 
 .sidebar-toggle {

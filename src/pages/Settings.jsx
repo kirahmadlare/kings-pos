@@ -16,7 +16,7 @@ import db from '../db';
 import { resetLocalDatabase, clearTransactionData } from '../utils/resetDatabase';
 import {
     Store, User, Sun, Moon, Monitor, Save, Palette, Database, Download,
-    Tag, Plus, Edit2, Trash2, X, Check, AlertTriangle, RefreshCw
+    Tag, Plus, Edit2, Trash2, X, Check, AlertTriangle, RefreshCw, Image, Upload
 } from 'lucide-react';
 import './Settings.css';
 
@@ -50,6 +50,11 @@ function Settings() {
         phone: store?.phone || ''
     });
     const [isSaving, setIsSaving] = useState(false);
+
+    // Branding state
+    const [logo, setLogo] = useState(store?.logo || null);
+    const [logoPreview, setLogoPreview] = useState(store?.logo || null);
+    const [isUploadingLogo, setIsUploadingLogo] = useState(false);
 
     // Category management state
     const [categories, setCategories] = useState([]);
@@ -91,6 +96,103 @@ function Settings() {
         setIsSaving(true);
         await updateStore({ ...storeData, taxRate: parseFloat(storeData.taxRate) || 0 });
         setIsSaving(false);
+    };
+
+    /**
+     * Handle logo file selection
+     */
+    const handleLogoChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            return;
+        }
+
+        // Validate file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Image size must be less than 2MB');
+            return;
+        }
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setLogoPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+        // Upload logo
+        handleUploadLogo(file);
+    };
+
+    /**
+     * Upload logo to server
+     */
+    const handleUploadLogo = async (file) => {
+        setIsUploadingLogo(true);
+        try {
+            const formData = new FormData();
+            formData.append('logo', file);
+
+            const response = await fetch(`http://localhost:3001/api/stores/${store.serverId || store._id}/logo`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to upload logo');
+            }
+
+            const data = await response.json();
+            setLogo(data.logo);
+            await updateStore({ logo: data.logo });
+            alert('✅ Logo uploaded successfully!');
+        } catch (error) {
+            console.error('Logo upload error:', error);
+            alert('❌ Failed to upload logo: ' + error.message);
+            setLogoPreview(logo); // Reset preview on error
+        } finally {
+            setIsUploadingLogo(false);
+        }
+    };
+
+    /**
+     * Remove logo
+     */
+    const handleRemoveLogo = async () => {
+        if (!window.confirm('Remove logo? The shop name will be displayed instead.')) {
+            return;
+        }
+
+        setIsUploadingLogo(true);
+        try {
+            const response = await fetch(`http://localhost:3001/api/stores/${store.serverId || store._id}/logo`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to remove logo');
+            }
+
+            setLogo(null);
+            setLogoPreview(null);
+            await updateStore({ logo: null });
+            alert('✅ Logo removed successfully!');
+        } catch (error) {
+            console.error('Logo removal error:', error);
+            alert('❌ Failed to remove logo: ' + error.message);
+        } finally {
+            setIsUploadingLogo(false);
+        }
     };
 
     /**
@@ -261,6 +363,64 @@ function Settings() {
                 <button className="btn btn-primary" onClick={handleSaveStore} disabled={isSaving}>
                     {isSaving ? <span className="spinner" /> : <Save size={18} />} Save
                 </button>
+            </section>
+
+            {/* Branding Section */}
+            <section className="settings-section">
+                <div className="section-header">
+                    <Image size={20} />
+                    <h3>Branding</h3>
+                </div>
+                <p className="section-description">
+                    Customize your POS appearance with a custom logo. Recommended size: 128x128 pixels.
+                </p>
+                <div className="settings-grid">
+                    <div className="input-group full-width">
+                        <label className="input-label">Logo</label>
+                        <div className="logo-upload-container">
+                            <div className="logo-preview">
+                                {logoPreview ? (
+                                    <img src={logoPreview} alt="Store Logo" className="logo-preview-image" />
+                                ) : (
+                                    <div className="logo-placeholder">
+                                        <Store size={48} />
+                                        <span>{storeData.name || 'Shop Name'}</span>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="logo-actions">
+                                <label className="btn btn-secondary" disabled={isUploadingLogo}>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleLogoChange}
+                                        style={{ display: 'none' }}
+                                        disabled={isUploadingLogo}
+                                    />
+                                    {isUploadingLogo ? (
+                                        <span className="spinner" />
+                                    ) : (
+                                        <Upload size={18} />
+                                    )}
+                                    Upload Logo
+                                </label>
+                                {logoPreview && (
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={handleRemoveLogo}
+                                        disabled={isUploadingLogo}
+                                    >
+                                        <Trash2 size={18} />
+                                        Remove
+                                    </button>
+                                )}
+                                <small className="text-muted">
+                                    PNG, JPG up to 2MB. Recommended: 128x128px
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* Categories Management Section */}

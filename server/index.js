@@ -62,6 +62,13 @@ app.set('io', io);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files (for uploaded logos)
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 // CORS configuration
 const corsOrigins = process.env.CORS_ORIGINS?.split(',') || ['http://localhost:5173'];
 app.use(cors({

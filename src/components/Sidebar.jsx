@@ -35,7 +35,8 @@ import {
     PieChart,
     Puzzle,
     Zap,
-    Truck
+    Truck,
+    Store
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -99,16 +100,36 @@ function Sidebar() {
                 {/* Header with Logo */}
                 <div className="sidebar-header">
                     <div className="sidebar-logo">
-                        {/* SVG Logo */}
-                        <img
-                            src="/logo.svg"
-                            alt="RetailPOS"
-                            className="logo-icon-svg"
-                        />
+                        {/* Custom Logo or Shop Name */}
+                        {store?.logo ? (
+                            <>
+                                <img
+                                    src={`http://localhost:3001${store.logo}`}
+                                    alt={store?.name || 'Store Logo'}
+                                    className="logo-icon-custom"
+                                    onError={(e) => {
+                                        // Fallback to default logo if custom logo fails to load
+                                        e.target.style.display = 'none';
+                                        e.target.nextElementSibling?.classList.remove('hidden');
+                                    }}
+                                />
+                                <div className="logo-fallback hidden">
+                                    <Store size={32} />
+                                </div>
+                            </>
+                        ) : (
+                            <div className="logo-name-as-logo">
+                                <span>{store?.name?.charAt(0)?.toUpperCase() || 'S'}</span>
+                            </div>
+                        )}
                         {!sidebarCollapsed && (
                             <div className="logo-text">
-                                <span className="logo-name">King's POS</span>
-                                <span className="logo-store">{store?.name || 'My Store'}</span>
+                                <span className="logo-name" style={{ fontSize: store?.logo ? '14px' : '18px' }}>
+                                    {store?.name || 'My Store'}
+                                </span>
+                                {!store?.logo && (
+                                    <span className="logo-store-subtitle">Point of Sale</span>
+                                )}
                             </div>
                         )}
                     </div>
