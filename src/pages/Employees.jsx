@@ -10,6 +10,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db from '../db';
 import { employeeSync } from '../services/sync';
 import {
@@ -32,18 +33,9 @@ const ROLES = [
     { value: 'staff', label: 'Staff', color: '#6b7280' }
 ];
 
-/**
- * Format currency
- */
-const formatCurrency = (amount, currency = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: currency
-    }).format(amount || 0);
-};
-
 function Employees() {
     const { store } = useAuthStore();
+    const { formatCurrency } = useCurrency();
 
     // State
     const [employees, setEmployees] = useState([]);
@@ -577,7 +569,7 @@ function Employees() {
                                     <span className="stat-label">Total Sales</span>
                                 </div>
                                 <div className="stat-card-sm">
-                                    <span className="stat-value">{formatCurrency(employeeStats.totalRevenue, store?.currency)}</span>
+                                    <span className="stat-value">{formatCurrency(employeeStats.totalRevenue)}</span>
                                     <span className="stat-label">Revenue Generated</span>
                                 </div>
                             </div>
@@ -602,7 +594,7 @@ function Employees() {
                                             </div>
                                             <div className="shift-stats">
                                                 <span>{shift.salesCount || 0} sales</span>
-                                                <span>{formatCurrency(shift.salesTotal || 0, store?.currency)}</span>
+                                                <span>{formatCurrency(shift.salesTotal || 0)}</span>
                                             </div>
                                         </div>
                                     ))}

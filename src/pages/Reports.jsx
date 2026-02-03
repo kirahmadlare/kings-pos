@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db from '../db';
 import {
     TrendingUp, TrendingDown, DollarSign, Package,
@@ -37,6 +38,7 @@ ChartJS.register(
 
 function Reports() {
     const { store } = useAuthStore();
+    const { formatCurrency } = useCurrency();
     const [sales, setSales] = useState([]);
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -64,14 +66,6 @@ function Reports() {
         }
     };
 
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: store?.currency || 'USD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(amount);
-    };
 
     // Calculate date range
     const getDateRange = () => {

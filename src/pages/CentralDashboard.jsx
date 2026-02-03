@@ -11,6 +11,7 @@ import {
     Store, AlertTriangle, CheckCircle, BarChart3, ArrowRight, RefreshCw
 } from 'lucide-react';
 import { apiRequest } from '../services/api';
+import { useCurrency } from '../hooks/useCurrency';
 import {
     LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
     XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
@@ -21,6 +22,7 @@ const COLORS = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'];
 
 function CentralDashboard() {
     const navigate = useNavigate();
+    const { formatCurrency } = useCurrency();
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
     const [stats, setStats] = useState(null);
@@ -79,12 +81,6 @@ function CentralDashboard() {
         }
     };
 
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(amount || 0);
-    };
 
     if (loading) {
         return (

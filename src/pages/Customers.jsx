@@ -11,6 +11,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db from '../db';
 import { customerSync } from '../services/sync';
 import {
@@ -23,16 +24,6 @@ import Pagination from '../components/Pagination';
 import ExportModal from '../components/ExportModal';
 import { useAdvancedSearch } from '../hooks/useAdvancedSearch';
 import './Customers.css';
-
-/**
- * Format currency based on store settings
- */
-const formatCurrency = (amount, currency = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: currency
-    }).format(amount || 0);
-};
 
 /**
  * Format date to readable string
@@ -61,6 +52,7 @@ const getDaysFromNow = (dateString) => {
 
 function Customers() {
     const { store } = useAuthStore();
+    const { formatCurrency } = useCurrency();
 
     // State
     const [customers, setCustomers] = useState([]);
@@ -437,7 +429,7 @@ function Customers() {
                                     </div>
                                     <div className="stat-item">
                                         <DollarSign size={16} />
-                                        <span>{formatCurrency(customer.totalSpent, store?.currency)}</span>
+                                        <span>{formatCurrency(customer.totalSpent)}</span>
                                     </div>
                                 </div>
                                 <div className="customer-actions">
@@ -498,10 +490,10 @@ function Customers() {
                                     <div className="credit-info">
                                         <h4>{credit.customerName}</h4>
                                         <p className="credit-amount">
-                                            <strong>{formatCurrency(remaining, store?.currency)}</strong>
+                                            <strong>{formatCurrency(remaining)}</strong>
                                             {credit.amountPaid > 0 && (
                                                 <span className="paid-note">
-                                                    ({formatCurrency(credit.amountPaid, store?.currency)} paid)
+                                                    ({formatCurrency(credit.amountPaid)} paid)
                                                 </span>
                                             )}
                                         </p>
@@ -638,7 +630,7 @@ function Customers() {
                                                 </span>
                                             </div>
                                             <div className="order-total">
-                                                {formatCurrency(order.total, store?.currency)}
+                                                {formatCurrency(order.total)}
                                             </div>
                                         </div>
                                     ))}
@@ -664,10 +656,10 @@ function Customers() {
                         <div className="modal-body">
                             <div className="payment-info">
                                 <p>Customer: <strong>{selectedCredit.customerName}</strong></p>
-                                <p>Total Credit: <strong>{formatCurrency(selectedCredit.amount, store?.currency)}</strong></p>
-                                <p>Already Paid: <strong>{formatCurrency(selectedCredit.amountPaid || 0, store?.currency)}</strong></p>
+                                <p>Total Credit: <strong>{formatCurrency(selectedCredit.amount)}</strong></p>
+                                <p>Already Paid: <strong>{formatCurrency(selectedCredit.amountPaid || 0)}</strong></p>
                                 <p className="remaining">
-                                    Remaining: <strong>{formatCurrency(selectedCredit.amount - (selectedCredit.amountPaid || 0), store?.currency)}</strong>
+                                    Remaining: <strong>{formatCurrency(selectedCredit.amount - (selectedCredit.amountPaid || 0))}</strong>
                                 </p>
                             </div>
                             <div className="input-group">

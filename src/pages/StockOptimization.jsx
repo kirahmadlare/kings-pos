@@ -4,6 +4,7 @@ import {
   RefreshCw, BarChart3, Activity
 } from 'lucide-react';
 import { apiRequest } from '../services/api';
+import { useCurrency } from '../hooks/useCurrency';
 import './Inventory.css';
 
 /**
@@ -13,6 +14,7 @@ import './Inventory.css';
  * Shows product categorization by value and identifies slow-moving items
  */
 const StockOptimization = () => {
+  const { formatCurrency } = useCurrency();
   const [abcAnalysis, setAbcAnalysis] = useState(null);
   const [slowMovers, setSlowMovers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,12 +41,6 @@ const StockOptimization = () => {
     }
   };
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
 
   const formatPercent = (value) => {
     return `${(value * 100).toFixed(1)}%`;

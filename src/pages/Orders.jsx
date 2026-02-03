@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db from '../db';
 import { productSync } from '../services/sync';
 import {
@@ -14,6 +15,7 @@ import './Orders.css';
 
 function Orders() {
     const { store } = useAuthStore();
+    const { formatCurrency } = useCurrency();
     const [products, setProducts] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
     const [purchaseOrders, setPurchaseOrders] = useState([]);
@@ -102,12 +104,6 @@ function Orders() {
         }
     };
 
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: store?.currency || 'USD'
-        }).format(amount);
-    };
 
     const openCreateOrder = () => {
         setFormData({

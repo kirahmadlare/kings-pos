@@ -15,6 +15,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db from '../db';
 import { productSync } from '../services/sync';
 import {
@@ -40,6 +41,7 @@ import './Inventory.css';
 function Inventory() {
     // Get current store from auth context
     const { store } = useAuthStore();
+    const { formatCurrency } = useCurrency();
 
     // Product and category data
     const [products, setProducts] = useState([]);
@@ -156,17 +158,6 @@ function Inventory() {
         }
     };
 
-    /**
-     * Format a number as currency using the store's currency setting.
-     * @param {number} amount - The amount to format
-     * @returns {string} Formatted currency string
-     */
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: store?.currency || 'USD'
-        }).format(amount);
-    };
 
     // Advanced search configuration
     const searchConfig = {

@@ -13,6 +13,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db from '../db';
 import {
     Building2, Users, DollarSign, TrendingUp,
@@ -29,6 +30,7 @@ import './Admin.css';
 function Admin() {
     const navigate = useNavigate();
     const { user, store } = useAuthStore();
+    const { formatCurrency } = useCurrency();
 
     // Aggregated statistics
     const [stats, setStats] = useState({
@@ -92,18 +94,6 @@ function Admin() {
         }
     };
 
-    /**
-     * Format currency for display.
-     * @param {number} amount - Amount to format
-     * @returns {string} Formatted currency string
-     */
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0
-        }).format(amount);
-    };
 
     /**
      * Get role badge styling.

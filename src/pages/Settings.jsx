@@ -10,13 +10,15 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 import { useSettingsStore } from '../stores/settingsStore';
 import db from '../db';
 import { resetLocalDatabase, clearTransactionData } from '../utils/resetDatabase';
 import {
     Store, User, Sun, Moon, Monitor, Save, Palette, Database, Download,
-    Tag, Plus, Edit2, Trash2, X, Check, AlertTriangle, RefreshCw, Image, Upload
+    Tag, Plus, Edit2, Trash2, X, Check, AlertTriangle, RefreshCw, Image, Upload,
+    BarChart3, PieChart, Building2, Puzzle, Zap, FileText, Shield, Settings as SettingsIcon
 } from 'lucide-react';
 import './Settings.css';
 
@@ -39,8 +41,10 @@ const categoryColors = [
 ];
 
 function Settings() {
+    const navigate = useNavigate();
     const { user, store, updateStore, logout } = useAuthStore();
     const { theme, setTheme } = useSettingsStore();
+    const isOwner = user?.role === 'owner';
 
     // Store settings state
     const [storeData, setStoreData] = useState({
@@ -600,6 +604,144 @@ function Settings() {
                             Reset Entire Database
                         </button>
                     </div>
+                </div>
+            </section>
+
+            {/* Advanced Settings Section */}
+            <section className="settings-section">
+                <div className="section-header">
+                    <SettingsIcon size={20} />
+                    <h3>Advanced Settings</h3>
+                </div>
+                <div className="advanced-settings-grid" style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                    gap: '1rem',
+                    marginTop: '1rem'
+                }}>
+                    {/* Reports */}
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => navigate('/reports')}
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '1.5rem 1rem'
+                        }}
+                    >
+                        <BarChart3 size={24} />
+                        <span>Reports</span>
+                    </button>
+
+                    {/* Report Builder - Owner Only */}
+                    {isOwner && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/reports/builder')}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '1.5rem 1rem'
+                            }}
+                        >
+                            <PieChart size={24} />
+                            <span>Report Builder</span>
+                        </button>
+                    )}
+
+                    {/* Multi-Store - Owner Only */}
+                    {isOwner && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/stores')}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '1.5rem 1rem'
+                            }}
+                        >
+                            <Building2 size={24} />
+                            <span>Multi-Store</span>
+                        </button>
+                    )}
+
+                    {/* Plugins - Owner Only */}
+                    {isOwner && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/plugins')}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '1.5rem 1rem'
+                            }}
+                        >
+                            <Puzzle size={24} />
+                            <span>Plugins</span>
+                        </button>
+                    )}
+
+                    {/* Workflows - Owner Only */}
+                    {isOwner && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/workflows')}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '1.5rem 1rem'
+                            }}
+                        >
+                            <Zap size={24} />
+                            <span>Workflows</span>
+                        </button>
+                    )}
+
+                    {/* Audit Logs - Owner Only */}
+                    {isOwner && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/audit-logs')}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '1.5rem 1rem'
+                            }}
+                        >
+                            <FileText size={24} />
+                            <span>Audit Logs</span>
+                        </button>
+                    )}
+
+                    {/* Permissions - Owner Only */}
+                    {isOwner && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/permissions')}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                padding: '1.5rem 1rem'
+                            }}
+                        >
+                            <Shield size={24} />
+                            <span>Permissions</span>
+                        </button>
+                    )}
                 </div>
             </section>
 

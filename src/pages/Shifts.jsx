@@ -11,6 +11,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db, { dbHelpers } from '../db';
 import {
     Calendar, Clock, Plus, Edit2, Trash2, X, Save,
@@ -49,18 +50,9 @@ const formatDate = (date) => {
     });
 };
 
-/**
- * Format currency
- */
-const formatCurrency = (amount, currency = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: currency
-    }).format(amount || 0);
-};
-
 function Shifts() {
     const { store, user } = useAuthStore();
+    const { formatCurrency } = useCurrency();
 
     // State
     const [currentWeek, setCurrentWeek] = useState(getWeekStart(new Date()));
@@ -690,7 +682,7 @@ function Shifts() {
                             <div className="summary-total">
                                 <span>Total Revenue</span>
                                 <span className="total-value">
-                                    {formatCurrency(shiftSummary.salesTotal, store?.currency)}
+                                    {formatCurrency(shiftSummary.salesTotal)}
                                 </span>
                             </div>
                         </div>

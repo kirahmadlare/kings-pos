@@ -7,9 +7,11 @@
 import { useState, useEffect } from 'react';
 import { Download, Calendar, Filter, FileText, TrendingUp } from 'lucide-react';
 import { apiRequest } from '../services/api';
+import { useCurrency } from '../hooks/useCurrency';
 import './ConsolidatedReports.css';
 
 function ConsolidatedReports() {
+    const { formatCurrency } = useCurrency();
     const [loading, setLoading] = useState(false);
     const [report, setReport] = useState(null);
     const [reportType, setReportType] = useState('sales');
@@ -59,12 +61,6 @@ function ConsolidatedReports() {
         URL.revokeObjectURL(url);
     };
 
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(amount || 0);
-    };
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {

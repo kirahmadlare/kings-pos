@@ -9,11 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import { Award, Users, TrendingUp, Gift, ArrowUp, ArrowDown, Settings } from 'lucide-react';
 import api from '../services/api';
 import { toast } from '../stores/toastStore';
-import { formatCurrency } from '../utils/format';
+import { useCurrency } from '../hooks/useCurrency';
 import './Loyalty.css';
 
 export default function LoyaltyDashboard() {
     const navigate = useNavigate();
+    const { formatCurrency } = useCurrency();
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState(null);
     const [topCustomers, setTopCustomers] = useState([]);

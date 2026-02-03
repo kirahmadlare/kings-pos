@@ -50,21 +50,22 @@ const navItems = [
     { path: '/inventory', label: 'Inventory', icon: Package },
     { path: '/inventory/purchase-orders', label: 'Purchase Orders', icon: Truck },
     { path: '/pos', label: 'Point of Sale', icon: ShoppingCart },
-    { path: '/orders', label: 'Orders', icon: ClipboardList },
+    // { path: '/orders', label: 'Orders', icon: ClipboardList }, // Hidden - duplicate of Purchase Orders
     { path: '/customers', label: 'Customers', icon: Users },
     { path: '/loyalty', label: 'Loyalty Program', icon: Award },
     { path: '/employees', label: 'Employees', icon: UserCog },
     { path: '/shifts', label: 'Shifts', icon: Calendar },
     { path: '/notifications', label: 'Notifications', icon: Bell },
-    { path: '/reports', label: 'Reports', icon: BarChart3 },
-    { path: '/reports/builder', label: 'Report Builder', icon: PieChart, ownerOnly: true },
     { path: '/central', label: 'Central Console', icon: TrendingUp, ownerOnly: true },
     // { path: '/organization', label: 'Organization', icon: Briefcase, ownerOnly: true }, // Hidden - not working
-    { path: '/stores', label: 'Multi-Store', icon: Building2, ownerOnly: true },
-    { path: '/plugins', label: 'Plugins', icon: Puzzle, ownerOnly: true },
-    { path: '/workflows', label: 'Workflows', icon: Zap, ownerOnly: true },
-    { path: '/audit-logs', label: 'Audit Logs', icon: FileText, ownerOnly: true },
-    { path: '/permissions', label: 'Permissions', icon: Shield, ownerOnly: true },
+    // Items below moved to Settings page:
+    // { path: '/reports', label: 'Reports', icon: BarChart3 },
+    // { path: '/reports/builder', label: 'Report Builder', icon: PieChart, ownerOnly: true },
+    // { path: '/stores', label: 'Multi-Store', icon: Building2, ownerOnly: true },
+    // { path: '/plugins', label: 'Plugins', icon: Puzzle, ownerOnly: true },
+    // { path: '/workflows', label: 'Workflows', icon: Zap, ownerOnly: true },
+    // { path: '/audit-logs', label: 'Audit Logs', icon: FileText, ownerOnly: true },
+    // { path: '/permissions', label: 'Permissions', icon: Shield, ownerOnly: true },
     { path: '/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -151,6 +152,7 @@ function Sidebar() {
                             <NavLink
                                 key={path}
                                 to={path}
+                                end={path === '/inventory' || path === '/reports'}
                                 className={({ isActive }) =>
                                     `sidebar-link ${isActive ? 'active' : ''}`
                                 }

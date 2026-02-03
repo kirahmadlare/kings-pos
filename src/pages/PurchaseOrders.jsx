@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
   Plus, Package, CheckCircle, XCircle, Clock, Truck, FileText,
-  User, Calendar, DollarSign, Filter, RefreshCw, Edit2, X
+  User, Calendar, DollarSign, Filter, RefreshCw, Edit2, X, Search
 } from 'lucide-react';
 import { apiRequest } from '../services/api';
 import { useAuthStore } from '../stores/authStore';
+import { useCurrency } from '../hooks/useCurrency';
 import db from '../db';
 import './Inventory.css';
 
@@ -16,6 +17,7 @@ import './Inventory.css';
  */
 const PurchaseOrders = () => {
   const { store } = useAuthStore();
+  const { formatCurrency } = useCurrency();
   const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [products, setProducts] = useState([]);
@@ -26,6 +28,7 @@ const PurchaseOrders = () => {
   const [editingPO, setEditingPO] = useState(null);
   const [receivingPO, setReceivingPO] = useState(null);
   const [receiveQuantities, setReceiveQuantities] = useState({});
+  const [productSearchTerm, setProductSearchTerm] = useState('');
 
   // Supplier form state
   const [supplierFormData, setSupplierFormData] = useState({
@@ -163,8 +166,9 @@ const PurchaseOrders = () => {
       supplierId: suppliers[0]?._id || '',
       expectedDeliveryDate: '',
       notes: '',
-      items: [{ productId: '', quantity: '', unitPrice: '' }]
+      items: []
     });
+    setProductSearchTerm('');
     setShowModal(true);
   };
 
@@ -332,12 +336,20 @@ const PurchaseOrders = () => {
   };
 
   const getSupplierName = (supplierId) => {
-    const supplier = suppliers.find(s => s._id === supplierId);
+    const supplier = suppliers.find(s =>
+      s._id === supplierId ||
+      s.serverId === supplierId ||
+      s.id === supplierId
+    );
     return supplier?.name || 'Unknown Supplier';
   };
 
   const getProductName = (productId) => {
-    const product = products.find(p => p._id === productId);
+    const product = products.find(p =>
+      p._id === productId ||
+      p.serverId === productId ||
+      p.id === productId
+    );
     return product?.name || 'Unknown Product';
   };
 
@@ -345,12 +357,6 @@ const PurchaseOrders = () => {
     return items.reduce((sum, item) => sum + (item.quantity * (item.costPrice || item.unitPrice || 0)), 0);
   };
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
 
   const formatDate = (dateString) => {
     if (!dateString) return '-';
@@ -606,67 +612,177 @@ const PurchaseOrders = () => {
                 <div className="inventory-form-group">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
                     <label className="inventory-form-label" style={{ marginBottom: 0 }}>Items</label>
-                    <button
-                      type="button"
-                      onClick={handleAddItem}
-                      className="inventory-btn inventory-btn-sm inventory-btn-secondary"
-                    >
-                      <Plus size={16} />
-                      Add Item
-                    </button>
                   </div>
 
-                  {formData.items.map((item, index) => (
-                    <div key={index} style={{
-                      display: 'grid',
-                      gridTemplateColumns: '2fr 1fr 1fr auto',
-                      gap: '0.75rem',
-                      marginBottom: '0.75rem',
-                      padding: '0.75rem',
-                      background: 'var(--surface)',
-                      borderRadius: 'var(--radius-md)'
-                    }}>
-                      <select
-                        value={item.productId}
-                        onChange={(e) => handleItemChange(index, 'productId', e.target.value)}
-                        className="inventory-form-select"
-                        required
-                      >
-                        <option value="">Select Product</option>
-                        {products.map(product => (
-                          <option key={product._id} value={product._id}>
-                            {product.name} - {product.sku || 'N/A'}
-                          </option>
+                  {/* Product Search Bar */}
+                  <div style={{ marginBottom: '1rem', position: 'relative' }}>
+                    <Search size={18} style={{
+                      position: 'absolute',
+                      left: '0.75rem',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: 'var(--text-tertiary)',
+                      zIndex: 1
+                    }} />
+                    <input
+                      type="text"
+                      value={productSearchTerm}
+                      onChange={(e) => setProductSearchTerm(e.target.value)}
+                      className="inventory-form-input"
+                      placeholder="Search and click to add products..."
+                      style={{ paddingLeft: '2.5rem' }}
+                    />
+
+                    {/* Search Results Dropdown */}
+                    {productSearchTerm && (
+                      <div style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: 0,
+                        right: 0,
+                        maxHeight: '250px',
+                        overflowY: 'auto',
+                        background: 'var(--bg-secondary)',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: 'var(--radius-md)',
+                        marginTop: '0.25rem',
+                        zIndex: 1000,
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                      }}>
+                        {products.filter(p =>
+                          p.name?.toLowerCase().includes(productSearchTerm.toLowerCase()) ||
+                          (p.sku && p.sku.toLowerCase().includes(productSearchTerm.toLowerCase()))
+                        ).map(product => (
+                          <div
+                            key={product._id || product.id}
+                            onClick={() => {
+                              const productId = product._id || product.serverId || product.id;
+                              console.log('Adding product:', product.name, 'ID:', productId);
+
+                              // Check if product already exists in items
+                              const existingIndex = formData.items.findIndex(item => item.productId === productId);
+                              if (existingIndex >= 0) {
+                                alert('Product already added to this order');
+                              } else {
+                                // Add as new item
+                                setFormData(prev => ({
+                                  ...prev,
+                                  items: [...prev.items, {
+                                    productId: productId,
+                                    quantity: '1',
+                                    unitPrice: product.costPrice || product.price || ''
+                                  }]
+                                }));
+                              }
+                              setProductSearchTerm('');
+                            }}
+                            style={{
+                              padding: '0.75rem',
+                              cursor: 'pointer',
+                              borderBottom: '1px solid var(--border-color)',
+                              transition: 'background 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-tertiary)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                          >
+                            <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>
+                              {product.name}
+                            </div>
+                            <div style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', display: 'flex', justifyContent: 'space-between' }}>
+                              <span>SKU: {product.sku || 'N/A'}</span>
+                              <span>Stock: {product.quantity || 0} units</span>
+                            </div>
+                          </div>
                         ))}
-                      </select>
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                        className="inventory-form-input"
-                        placeholder="Qty"
-                        min="1"
-                        required
-                      />
-                      <input
-                        type="number"
-                        value={item.unitPrice}
-                        onChange={(e) => handleItemChange(index, 'unitPrice', e.target.value)}
-                        className="inventory-form-input"
-                        placeholder="Price"
-                        min="0"
-                        step="0.01"
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveItem(index)}
-                        className="inventory-btn inventory-btn-sm inventory-btn-danger"
-                      >
-                        <X size={16} />
-                      </button>
+                        {products.filter(p =>
+                          p.name?.toLowerCase().includes(productSearchTerm.toLowerCase()) ||
+                          (p.sku && p.sku.toLowerCase().includes(productSearchTerm.toLowerCase()))
+                        ).length === 0 && (
+                          <div style={{ padding: '1rem', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+                            No products found
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {formData.items.length === 0 && (
+                    <div style={{
+                      padding: '2rem',
+                      textAlign: 'center',
+                      color: 'var(--text-tertiary)',
+                      background: 'var(--bg-tertiary)',
+                      borderRadius: 'var(--radius-md)',
+                      border: '2px dashed var(--border-color)'
+                    }}>
+                      <Package size={48} style={{ marginBottom: '1rem', opacity: 0.5 }} />
+                      <p style={{ marginBottom: '0.5rem', fontSize: '1rem' }}>No items added yet</p>
+                      <p style={{ fontSize: '0.875rem' }}>Search and click products above to add them to this order</p>
                     </div>
-                  ))}
+                  )}
+
+                  {formData.items.map((item, index) => {
+                    const selectedProduct = products.find(p =>
+                      p._id === item.productId ||
+                      p.serverId === item.productId ||
+                      p.id === item.productId
+                    );
+
+                    console.log('Item:', item.productId, 'Found product:', selectedProduct?.name);
+
+                    return (
+                      <div key={index} style={{
+                        display: 'grid',
+                        gridTemplateColumns: '2fr 1fr 1fr auto',
+                        gap: '0.75rem',
+                        marginBottom: '0.75rem',
+                        padding: '0.75rem',
+                        background: 'var(--surface)',
+                        borderRadius: 'var(--radius-md)'
+                      }}>
+                        <div>
+                          <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>
+                            {selectedProduct?.name || 'Unknown Product'}
+                          </div>
+                          <div style={{
+                            fontSize: '0.75rem',
+                            color: 'var(--text-tertiary)',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                          }}>
+                            <span>SKU: {selectedProduct?.sku || 'N/A'}</span>
+                            <span>Current Stock: {selectedProduct?.quantity || 0} units</span>
+                          </div>
+                        </div>
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
+                          className="inventory-form-input"
+                          placeholder="Qty"
+                          min="1"
+                          required
+                        />
+                        <input
+                          type="number"
+                          value={item.unitPrice}
+                          onChange={(e) => handleItemChange(index, 'unitPrice', e.target.value)}
+                          className="inventory-form-input"
+                          placeholder="Price"
+                          min="0"
+                          step="0.01"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveItem(index)}
+                          className="inventory-btn inventory-btn-sm inventory-btn-danger"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
